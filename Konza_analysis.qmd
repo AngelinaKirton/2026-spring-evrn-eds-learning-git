@@ -1,29 +1,50 @@
 ---
 title: "Konza Vegetation Analysis"
 author: "Angelina Kirton"
-format: docx
+format: html
 ---
 
+## Introduction
 
-## Running Code
+This analysis will look at vegetation data from the Konza National Ecological Observatory Network (NEON) site located near Manhattan, KS. It will use tidyverse packages to wrangle and visualize some of the data.
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Loading the data 
 
-```{r}
-#| label: plot-cars
-
-# plot the cars dataset
-plot(cars,
-     col = "purple",
-     main = "An amazing plot")
-```
-
-You can add options to executable code like this
+The data are provided in csv.files. We will use the tidyverse package 'readr' to load it into R.
 
 ```{r}
-#| echo: false
-#| label: do-math
-2 * 2
+#| label: read-csv
+
+# load packages
+library("readr")
+library("dplyr")
+library("ggplot2")
+
+# read in the data
+konza_data <- read_csv("data/NEON.D06.KONZ.DP1.10058.001.div_1m2Data.2025-08.basic.20251222T234053Z (1).csv")
 ```
 
-The `echo: false` option disables the printing of code (only output is displayed).
+## Data summarizing with 'dplyr'
+
+We will next use the dplyr package to summarize some different aspects of the data.
+
+```{r}
+#| label: summarize-with-dplyr
+
+# first summary to make will be a count of the number of observations in each family.
+konza_data %>%
+  group_by(family) %>%
+  tally() %>%
+  arrange(desc(n))
+```
+
+This analysis shows that Poaceae and Asteraceae are among the most common family found in these plots.
+
+```{r}
+#| label: mean-pcnt-cover-by-family
+
+# the goal is to calculate the mean percent cover of each family
+
+```
+
+
