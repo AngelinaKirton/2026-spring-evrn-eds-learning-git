@@ -97,9 +97,18 @@ konza_data %>%
   scale_color_viridis_c()
 ```
 
+Next we will create a figure that compares the native status of Cyperaceae vs Cornaceae
+```{r}
+#| label: native-status-cornaceae-vs-cyperaceae
 
-
-## Next steps 
-Need to demonstrate the use of 'mutate()' function and how to use 'ggplot2'. Some interesting plots could be looking at the effect of elevation on plant cover.
-
+konza_data %>%
+  filter(!is.na(family)) %>%
+  filter(family %in% c("Cyperaceae", "Cornaceae")) %>%
+  ggplot(aes(y = family, fill = nativeStatusCode)) +
+  geom_bar() +
+  labs(title = "Native Status of Cornaceae vs Cyperaceae",
+       y = "Family",
+       x = "Quantity")
+```
+This bar plot compares the native status of Cyperaceae vs Cornaceae, and shows that there is a higher quantity of unknown Cyperaceae and a lower count of native Cornaceae in the Konza Prairie
 
