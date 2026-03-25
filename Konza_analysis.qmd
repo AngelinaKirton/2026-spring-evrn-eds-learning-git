@@ -115,7 +115,7 @@ Analysis: This bar plot compares the native status of Cyperaceae vs Cornaceae, a
 
 Next we are going to create a scatter plot that shows the families and the plotID of the species
 ```{r}
-#| label: native-status-cornaceae-vs-cyperaceae
+#| label: families-plot-ID
 
 konza_data %>%
   filter(!is.na(family)) %>%
@@ -127,3 +127,17 @@ konza_data %>%
 ```
 Analysis: This scatter plot shows us the amount of observations that were collected in the field. Every point on the plot represents an observation that was recorded at different locations, and shows how many families (y-axis) were present at specific locations (x-axis).
 
+Next we are going to create a histogram that shows the percent coverage of the Violaceae family
+```{r}
+#| label: percent-coverage_violaceae
+
+konza_data %>%
+  filter(family == "Violaceae") %>%
+  ggplot(aes(x = percentCover)) +
+  geom_histogram(bindwith = 30, fill = "pink") +
+  labs(title = "Percent Coverage of Violaceae",
+       x = "Percent Coverage",
+       y = "Frequency")
+```
+
+Analysis: This histogram shows that there are around 4 observations of Violaceae plants collected where the percent coverage is 50%, and only one observation was collected where the percentage cover is 100%
