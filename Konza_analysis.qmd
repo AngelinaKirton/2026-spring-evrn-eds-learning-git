@@ -2,6 +2,10 @@
 title: "Konza Vegetation Analysis"
 author: "Angelina Kirton"
 format: html
+execute: 
+  echo: false
+  warning: false
+  message: false 
 ---
 
 ## Introduction
@@ -19,6 +23,8 @@ The data are provided in csv.files. We will use the tidyverse package 'readr' to
 library("readr")
 library("dplyr")
 library("ggplot2")
+library("ggthemes")
+library("knitr")
 
 # read in the data
 konza_data <- read_csv("data/NEON.D06.KONZ.DP1.10058.001.div_1m2Data.2025-08.basic.20251222T234053Z (1).csv")
@@ -35,7 +41,8 @@ We will next use the dplyr package to summarize some different aspects of the da
 konza_data %>%
   group_by(family) %>%
   tally() %>%
-  arrange(desc(n))
+  arrange(desc(n)) %>%
+  kable()
 ```
 
 This analysis shows that Poaceae and Asteraceae are among the most common family found in these plots.
@@ -48,7 +55,8 @@ konza_data %>%
   group_by(family) %>%
   summarise(mean_pcnt_cover = mean(percentCover),
             sd_pcnt_cover = sd(percentCover)) %>%
-  arrange(desc(mean_pcnt_cover ))
+  arrange(desc(mean_pcnt_cover )) %>%
+  kable()
 ```
 
 This analysis showed that the largest percent cover is the 'NA' taxa, which means it likely was not able to be identified, but the highest mean percent cover at 16% across the plots was Fagaceae.
@@ -82,20 +90,21 @@ konza_data %>%
 Next up we will use 'ggplot2' to make some figures
 
 ```{r}
-#| label: elevation-percent-by-family
+#| label: histogram-percent-cover
 
 konza_data %>%
   filter(!is.na(family)) %>%
-  filter(family == "Asteraceae") %>%
-  ggplot() +
-  geom_boxplot(aes(x = elevation,
-                   y = percentCover,
-                   group = elevation)) +
-  labs(title = "Comparison of Aesteraceae by Plot",
-       y = "Percent Cover",
-       x = " Elevation") + 
-  scale_color_viridis_c()
+ ggplot(aes(x = percentCover)) +
+  geom_histogram() +
+  labs(title = "Histogram of percent cover, all species",
+       x = "Percent Cover") +
+  theme_economist()
 ```
+
+Next steps 
+1. Follow up on the rally high percent cover values. Maybe say > 25%?
+
+Looks like it is msotly soi and dead plant matter.
 
 Next we will create a bar plot that compares the native status of Cyperaceae vs Cornaceae
 ```{r}
