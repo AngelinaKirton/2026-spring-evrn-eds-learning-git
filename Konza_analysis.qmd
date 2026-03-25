@@ -97,7 +97,7 @@ konza_data %>%
   scale_color_viridis_c()
 ```
 
-Next we will create a figure that compares the native status of Cyperaceae vs Cornaceae
+Next we will create a bar plot that compares the native status of Cyperaceae vs Cornaceae
 ```{r}
 #| label: native-status-cornaceae-vs-cyperaceae
 
@@ -110,5 +110,20 @@ konza_data %>%
        y = "Family",
        x = "Quantity")
 ```
-This bar plot compares the native status of Cyperaceae vs Cornaceae, and shows that there is a higher quantity of unknown Cyperaceae and a lower count of native Cornaceae in the Konza Prairie
+Analysis: This bar plot compares the native status of Cyperaceae vs Cornaceae, and shows that there is a higher quantity of Cyperaceae, which are classifies as unknown and a lower count of Cornaceae, which are native.
+
+
+Next we are going to create a scatter plot that shows the families and the plotID of the species
+```{r}
+#| label: native-status-cornaceae-vs-cyperaceae
+
+konza_data %>%
+  filter(!is.na(family)) %>%
+  ggplot(aes(x = plotID, y = family)) +
+  geom_point() +
+  labs(title = "Family vs Plot ID",
+       y = "Family",
+       x = "Plot ID")
+```
+Analysis: This scatter plot shows us the amount of observations that were collected in the field. Every point on the plot represents an observation that was recorded at different locations, and shows how many families (y-axis) were present at specific locations (x-axis).
 
